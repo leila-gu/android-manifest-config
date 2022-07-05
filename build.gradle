@@ -3,12 +3,14 @@
 buildscript {
   apply from: "config/index.gradle"
 
+  CONFIG.versions.android.plugin = '4.2.2'
+
   ext.deps = [
       javapoet      : 'com.squareup:javapoet:1.10.0',
       junit         : 'junit:junit:4.12',
       compiletesting: 'com.google.testing.compile:compile-testing:0.15',
       auto          : [
-          'service': 'com.google.auto.service:auto-service:1.0-rc4',
+          'service': 'com.google.auto.service:auto-service:1.0.1',
       ],
       kotlin      : [
           'stdLib'      : "org.jetbrains.kotlin:kotlin-stdlib-jdk7:$CONFIG.versions.kotlin",
@@ -26,7 +28,6 @@ buildscript {
     google()
     maven { url "https://plugins.gradle.org/m2/" }
     mavenCentral()
-    jcenter()
   }
 
   dependencies {
@@ -49,7 +50,6 @@ allprojects { proj ->
   repositories {
     google()
     mavenCentral()
-    jcenter()
   }
 
   apply plugin: 'pl.allegro.tech.build.axion-release'
@@ -63,4 +63,12 @@ allprojects { proj ->
   }
 
   proj.version = scmVersion.version
+
+  tasks.withType(org.jetbrains.kotlin.gradle.tasks.KotlinCompile).all {
+    it.doFirst {
+      kotlinOptions.freeCompilerArgs = [
+              '--add-exports', 'jdk.compiler/com.sun.tools.javac.code=ALL-UNNAMED'
+      ]
+    }
+  }
 }

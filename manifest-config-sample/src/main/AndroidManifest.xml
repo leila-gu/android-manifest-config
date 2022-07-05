@@ -33,7 +33,8 @@
     <activity
       android:label="@string/title_activity_manifest_config"
       android:name=".ManifestConfigActivity"
-      android:theme="@style/AppTheme.NoActionBar">
+      android:theme="@style/AppTheme.NoActionBar"
+      android:exported="true">
       <intent-filter>
         <action android:name="android.intent.action.MAIN"/>
 
